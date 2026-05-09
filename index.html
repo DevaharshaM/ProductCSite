@@ -310,7 +310,7 @@
     }
  
     /* ══════════════════════════════════════
-       PROJECTS PAGE
+       EXPLORATIONS PAGE
     ══════════════════════════════════════ */
     .projects-header {
       margin-bottom: 1rem;
@@ -334,36 +334,55 @@
     .projects-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.5px;
       margin-top: 3.5rem;
       border: 1px solid var(--border);
     }
  
+    /* ── Accordion card ── */
     .project-card {
       background: var(--surface);
-      padding: 2.2rem 2.5rem;
       border-bottom: 1px solid var(--border);
       position: relative;
-      transition: background 0.25s ease;
-      cursor: default;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease,
+                  box-shadow 0.3s ease;
+      outline: none;
     }
  
     .project-card:last-child { border-bottom: none; }
  
+    /* left accent bar */
     .project-card::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 0; top: 0; bottom: 0;
       width: 2px;
       background: var(--accent);
       opacity: 0;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.3s ease;
     }
  
     .project-card:hover { background: var(--surface2); }
-    .project-card:hover::before { opacity: 1; }
+    .project-card:hover::before { opacity: 0.5; }
+ 
+    .project-card.open {
+      background: var(--surface2);
+      box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.15),
+                  0 0 24px rgba(94, 234, 212, 0.04);
+    }
+ 
+    .project-card.open::before { opacity: 1; }
+ 
+    /* ── Card header (always visible) ── */
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 2rem 2.5rem;
+    }
+ 
+    .card-header-left { flex: 1; }
  
     .card-number {
       font-family: 'DM Mono', monospace;
@@ -371,34 +390,87 @@
       font-weight: 300;
       color: var(--muted2);
       letter-spacing: 0.12em;
-      margin-bottom: 1rem;
+      margin-bottom: 0.6rem;
     }
  
     .card-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 400;
       color: var(--text);
-      margin-bottom: 0.6rem;
       letter-spacing: 0.01em;
+      margin-bottom: 0.4rem;
+    }
+ 
+    .card-tagline {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.55;
+    }
+ 
+    /* ── Chevron toggle ── */
+    .card-chevron {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--muted2);
+      transition: transform 0.35s ease, color 0.25s ease;
+    }
+ 
+    .project-card.open .card-chevron {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+ 
+    /* ── Expandable body ── */
+    .card-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.38s ease;
+    }
+ 
+    .project-card.open .card-body {
+      grid-template-rows: 1fr;
+    }
+ 
+    .card-body-inner {
+      overflow: hidden;
+    }
+ 
+    .card-body-content {
+      padding: 0 2.5rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease 0.08s, transform 0.3s ease 0.08s;
+    }
+ 
+    .project-card.open .card-body-content {
+      opacity: 1;
+      transform: translateY(0);
     }
  
     .card-desc {
       font-size: 0.875rem;
       color: var(--muted);
-      line-height: 1.7;
-      max-width: 480px;
+      line-height: 1.78;
+      max-width: 520px;
     }
  
     .card-status {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.45rem;
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
       color: var(--muted2);
       letter-spacing: 0.08em;
-      margin-top: 1.2rem;
     }
  
     .card-status::before {
@@ -526,13 +598,15 @@
       border: 1px solid var(--border);
       border-radius: 2px;
       text-decoration: none;
+      cursor: pointer;
       transition: all 0.2s ease;
       max-width: 360px;
+      color: inherit;
     }
  
     .contact-link-item:hover {
       background: var(--surface2);
-      border-color: rgba(45, 212, 191, 0.25);
+      border-color: rgba(94, 234, 212, 0.25);
     }
  
     .contact-link-icon {
@@ -640,7 +714,17 @@
  
     .feedback-btn:hover {
       background: var(--glow);
-      border-color: rgba(45, 212, 191, 0.5);
+      border-color: rgba(94, 234, 212, 0.5);
+    }
+ 
+    .feedback-hint {
+      margin-top: 1.25rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 300;
+      color: var(--muted2);
+      font-style: italic;
+      letter-spacing: 0.05em;
     }
  
     /* ══════════════════════════════════════
@@ -727,15 +811,15 @@
  
   <!-- ── NAVBAR ── -->
   <nav id="navbar">
-    <a class="nav-logo" href="#" onclick="showPage('home')">
+    <a class="nav-logo" href="javascript:void(0)" onclick="showPage('home')">
       Pravaha <span>Path</span>
     </a>
  
     <ul class="nav-links" id="navLinks">
-      <li><a href="#" onclick="showPage('home')"   id="nav-home"    class="active">Home</a></li>
-      <li><a href="#" onclick="showPage('projects')" id="nav-projects">Projects</a></li>
-      <li><a href="#" onclick="showPage('about')"  id="nav-about">About</a></li>
-      <li><a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+      <li><a href="javascript:void(0)" onclick="showPage('home')"    id="nav-home"     class="active">Home</a></li>
+      <li><a href="javascript:void(0)" onclick="showPage('projects')" id="nav-projects">Products</a></li>
+      <li><a href="javascript:void(0)" onclick="showPage('about')"   id="nav-about">About</a></li>
+      <li><a href="javascript:void(0)" onclick="showPage('contact')" id="nav-contact">Contact</a></li>
     </ul>
  
     <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -755,7 +839,7 @@
       </h1>
  
       <p class="hero-subtitle">
-        PravahPath is an evolving system designed to help engineers learn with clarity, structure, and direction.
+        Pravaha Path is an evolving system designed to help engineers learn with clarity, structure, and direction.
       </p>
  
       <p class="hero-whisper">Still evolving. Still exploring.</p>
@@ -777,42 +861,95 @@
     <footer class="footer">
       <div class="footer-left">A system that grows with you.</div>
       <div class="footer-right">pravaha path &nbsp;·&nbsp; 2025</div>
+    </footer>
+  </div>
+ 
+  <!-- ══════════════════════════════════════
+       PRODUCTS PAGE
   ══════════════════════════════════════ -->
   <div class="page" id="page-projects">
     <div class="section">
-      <div class="section-label">Systems in exploration</div>
+      <div class="section-label">Products</div>
  
       <div class="projects-header">
-        <h2 class="projects-title">Concepts being<br><em style="font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; color:var(--text-soft);">mapped and built.</em></h2>
-        <p class="projects-desc">Each of these is an idea in motion — not a finished product, but a direction being followed with intention.</p>
+        <h2 class="projects-title">Systems being<br><em style="font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; color:var(--text-soft);">slowly shaped.</em></h2>
+        <p class="projects-desc">Each of these is a product in formation — not yet complete, but moving in a clear direction.</p>
       </div>
  
       <div class="projects-grid">
  
-        <div class="project-card">
-          <div class="card-number">01 &nbsp;/&nbsp; system</div>
-          <h3 class="card-title">Learning Path Generator</h3>
-          <p class="card-desc">A tool for mapping the connective tissue between engineering concepts — not just what to learn, but in what sequence and why.</p>
-          <div class="card-status">concept in progress</div>
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-number">01 &nbsp;/&nbsp; product</div>
+              <h3 class="card-title">Learning Path</h3>
+              <p class="card-tagline">A system for finding direction in engineering growth.</p>
+            </div>
+            <div class="card-chevron">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <div class="card-body-content">
+                <p class="card-desc">An evolving product that helps engineers understand not just what to learn next — but why that direction makes sense for where they currently are. Growth with orientation, not just volume.</p>
+                <div class="card-status">still evolving</div>
+              </div>
+            </div>
+          </div>
         </div>
  
-        <div class="project-card">
-          <div class="card-number">02 &nbsp;/&nbsp; system</div>
-          <h3 class="card-title">Interview Preparation Explorer</h3>
-          <p class="card-desc">Structured exploration of problem patterns — designed around understanding, not memorization. An evolving map of what matters and why.</p>
-          <div class="card-status">concept in progress</div>
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-number">02 &nbsp;/&nbsp; product</div>
+              <h3 class="card-title">Interview Preparation</h3>
+              <p class="card-tagline">Clarity over recall. Pattern over pressure.</p>
+            </div>
+            <div class="card-chevron">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <div class="card-body-content">
+                <p class="card-desc">A product built around the idea that preparation is less about what you remember and more about how you think. Designed to shift the relationship with high-stakes moments from anxiety toward quiet confidence.</p>
+                <div class="card-status">still evolving</div>
+              </div>
+            </div>
+          </div>
         </div>
  
-        <div class="project-card">
-          <div class="card-number">03 &nbsp;/&nbsp; system</div>
-          <h3 class="card-title">Knowledge Mapping System</h3>
-          <p class="card-desc">A framework for visualizing how engineering knowledge accumulates over time — connections, gaps, and the paths between them.</p>
-          <div class="card-status">concept in progress</div>
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-number">03 &nbsp;/&nbsp; product</div>
+              <h3 class="card-title">Knowledge Map</h3>
+              <p class="card-tagline">Understanding how what you know is connected.</p>
+            </div>
+            <div class="card-chevron">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <div class="card-body-content">
+                <p class="card-desc">A product that treats engineering knowledge as a living structure — where gaps are not failures but signals, and where the connections between ideas matter as much as the ideas themselves.</p>
+                <div class="card-status">still evolving</div>
+              </div>
+            </div>
+          </div>
         </div>
  
       </div>
  
-      <p class="projects-more">More systems are still being explored.</p>
+      <p class="projects-more">Some systems are still undefined.</p>
     </div>
  
     <footer class="footer">
@@ -870,78 +1007,26 @@
   ══════════════════════════════════════ -->
   <div class="page" id="page-contact">
     <div class="section">
-      <div class="section-label">Reach out</div>
+      <div class="section-label">Feedback & Thoughts</div>
  
-      <h2 class="contact-title">Let's think together.</h2>
-      <p class="contact-desc">Ideas, feedback, and interesting problems are always welcome.</p>
+      <h2 class="contact-title">Feedback &amp; Thoughts</h2>
+      <p class="contact-desc">Pravaha Path is still evolving.<br>Suggestions, ideas, and reflections are always welcome.</p>
  
-      <div class="contact-links">
- 
-        <a class="contact-link-item" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-          <div class="contact-link-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-              <rect x="2" y="9" width="4" height="12"/>
-              <circle cx="4" cy="4" r="2"/>
-            </svg>
-          </div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">LinkedIn</div>
-            <div class="contact-link-value">Devaharsha M</div>
-          </div>
-          <svg class="contact-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
- 
-        <a class="contact-link-item" href="https://github.com" target="_blank" rel="noopener noreferrer">
-          <div class="contact-link-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-            </svg>
-          </div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">GitHub</div>
-            <div class="contact-link-value">View repositories</div>
-          </div>
-          <svg class="contact-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
- 
-        <a class="contact-link-item" href="mailto:hello@pravahpath.dev">
-          <div class="contact-link-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">Email</div>
-            <div class="contact-link-value">hello@pravahpath.dev</div>
-          </div>
-          <svg class="contact-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
- 
-      </div>
- 
-      <!-- Feedback form -->
       <div class="feedback-section">
-        <label class="feedback-label" for="feedback-input">Share a thought or idea</label>
+        <label class="feedback-label" for="feedback-input">Your thoughts</label>
         <textarea
           id="feedback-input"
           class="feedback-textarea"
-          placeholder="What's on your mind? A concept, a question, or something you've been exploring..."
+          placeholder="A concept, a question, or something you've been exploring..."
         ></textarea>
         <br>
         <button class="feedback-btn" onclick="sendFeedback()">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M1 6.5h11M7.5 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          Send via Email
+          Send Feedback
         </button>
+        <p class="feedback-hint">Some systems improve through iteration.</p>
       </div>
  
     </div>
@@ -978,21 +1063,26 @@
       document.getElementById('navLinks').classList.toggle('open');
     }
  
+    function toggleCard(card) {
+      const isOpen = card.classList.contains('open');
+      // Close all cards first
+      document.querySelectorAll('.project-card').forEach(c => c.classList.remove('open'));
+      // If it wasn't open, open it
+      if (!isOpen) card.classList.add('open');
+    }
+ 
     function sendFeedback() {
       const body = document.getElementById('feedback-input').value.trim();
       if (!body) {
+        alert('Please enter feedback before submitting.');
         document.getElementById('feedback-input').focus();
         return;
       }
       const subject = encodeURIComponent('Pravaha Path Feedback');
       const encodedBody = encodeURIComponent(body);
-      window.location.href = `mailto:hello@pravahpath.dev?subject=${subject}&body=${encodedBody}`;
+      const mailtoLink = `mailto:hello@pravahpath.dev?subject=${subject}&body=${encodedBody}`;
+      window.open(mailtoLink, '_blank');
     }
- 
-    // Prevent default on all internal nav clicks
-    document.querySelectorAll('.nav-links a, .btn-primary').forEach(el => {
-      el.addEventListener('click', e => e.preventDefault());
-    });
   </script>
  
 </body>
