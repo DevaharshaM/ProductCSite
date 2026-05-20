@@ -419,7 +419,7 @@
       color: var(--accent);
     }
 
-    /* Expandable layout system smoother */
+    /* ── Expandable CSS Grid smooth transition fix ── */
     .card-body {
       display: grid;
       grid-template-rows: 0fr;
@@ -436,10 +436,10 @@
     }
 
     .card-body-content {
-      padding: 0 2.5rem 2.2rem;
+      padding: 0 2.5rem 1.8rem;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
       opacity: 0;
       transform: translateY(6px);
       transition: opacity 0.3s ease 0.08s, transform 0.3s ease 0.08s;
@@ -454,50 +454,7 @@
       font-size: 0.875rem;
       color: var(--muted);
       line-height: 1.78;
-      max-width: 560px;
-    }
-
-    /* ── Curious AI Intelligence Terminal Preview styling ── */
-    .ai-preview-box {
-      font-family: 'DM Mono', monospace;
-      background: rgba(16, 42, 42, 0.4);
-      border: 1px dashed rgba(94, 234, 212, 0.15);
-      border-radius: 4px;
-      padding: 1rem 1.25rem;
-      margin-top: 0.5rem;
-      max-width: 560px;
-      font-size: 0.72rem;
-      color: var(--text-soft);
-    }
-
-    .ai-preview-header {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted2);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
-      padding-bottom: 0.4rem;
-      margin-bottom: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .ai-preview-stream {
-      line-height: 1.6;
-    }
-
-    .ai-preview-stream span.highlight {
-      color: var(--accent);
-    }
-
-    .map-node {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin: 0.25rem 0;
-    }
-    .map-line {
-      color: var(--muted2);
-      opacity: 0.5;
+      max-width: 520px;
     }
 
     .card-status {
@@ -508,7 +465,6 @@
       font-size: 0.65rem;
       color: var(--muted2);
       letter-spacing: 0.08em;
-      margin-top: 0.5rem;
     }
 
     .card-status::before {
@@ -822,7 +778,7 @@
 
       <div class="projects-header">
         <h2 class="projects-title">Systems being<br><em style="font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; color:var(--text-soft);">slowly shaped.</em></h2>
-        <p class="projects-desc">Click to expand each framework. Tailored for students building foundations, professionals planning cross-domain switches, and veterans tracking modern industry currents.</p>
+        <p class="projects-desc">Each of these is a product in formation — not yet complete, but moving in a clear direction.</p>
       </div>
 
       <div class="projects-grid">
@@ -830,9 +786,9 @@
         <div class="project-card" tabindex="0" onclick="toggleCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){toggleCard(this); event.preventDefault();}">
           <div class="card-header">
             <div class="card-header-left">
-              <div class="card-number">01 &nbsp;/&nbsp; trajectory</div>
+              <div class="card-number">01 &nbsp;/&nbsp; product</div>
               <h3 class="card-title">Learning Path</h3>
-              <p class="card-tagline">Aligning orientation with native curiosity and market trends.</p>
+              <p class="card-tagline">A system for finding direction in engineering growth.</p>
             </div>
             <div class="card-chevron">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -843,21 +799,8 @@
           <div class="card-body">
             <div class="card-body-inner">
               <div class="card-body-content">
-                <p class="card-desc">An intelligent compass that looks beyond general blueprints. By evaluating your direct mechanical or functional interests, it calculates an active learning trajectory tailored to you. It helps students lock onto deep specializations, and safely navigates mid-career professionals looking to decode modern, unfamiliar industry trends.</p>
-                
-                <div class="ai-preview-box">
-                  <div class="ai-preview-header">
-                    <span>Active Domain Engine</span>
-                    <span>Scope Scale</span>
-                  </div>
-                  <div class="ai-preview-stream">
-                    &gt; current_focus: <span class="highlight">Embedded Systems (Firmware & RTOS)</span><br>
-                    &gt; target_vector: Industrial Automation / Edge AI Devices<br>
-                    &gt; system_evolution: Core framework extensible to Mechanical, Electrical, and Bio-Medical systems.
-                  </div>
-                </div>
-
-                <div class="card-status">orientation matrix online</div>
+                <p class="card-desc">An evolving product that helps engineers understand not just what to learn next — but why that direction makes sense for where they currently are. Growth with orientation, not just volume.</p>
+                <div class="card-status">still evolving</div>
               </div>
             </div>
           </div>
@@ -866,9 +809,9 @@
         <div class="project-card" tabindex="0" onclick="toggleCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){toggleCard(this); event.preventDefault();}">
           <div class="card-header">
             <div class="card-header-left">
-              <div class="card-number">02 &nbsp;/&nbsp; positioning</div>
+              <div class="card-number">02 &nbsp;/&nbsp; product</div>
               <h3 class="card-title">Interview Preparation</h3>
-              <p class="card-tagline">Role-specific clarity structured for high-stakes moments.</p>
+              <p class="card-tagline">Clarity over recall. Pattern over pressure.</p>
             </div>
             <div class="card-chevron">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -879,21 +822,8 @@
           <div class="card-body">
             <div class="card-body-inner">
               <div class="card-body-content">
-                <p class="card-desc">An adaptive evaluation co-pilot built to bridge preparation gaps. Instead of generic question banks, it generates precise diagnostics relative to the specific target role. Ideal for students pursuing their first technical milestone, or seasoned engineers switching sub-domains who need to adapt their existing knowledge to fit new evaluation standards.</p>
-                
-                <div class="ai-preview-box">
-                  <div class="ai-preview-header">
-                    <span>Role Diagnostic</span>
-                    <span>Evaluation Matrix</span>
-                  </div>
-                  <div class="ai-preview-stream">
-                    &gt; targeted_role: <span class="highlight">Embedded Linux Engineer (Kernel/Drivers)</span><br>
-                    &gt; focus_areas: Memory Mapping, Interrupt Latency, POSIX Threading<br>
-                    &gt; cross_domain_bridge: Active
-                  </div>
-                </div>
-
-                <div class="card-status">preparation engine priming</div>
+                <p class="card-desc">A product built around the idea that preparation is less about what you remember and more about how you think. Designed to shift the relationship with high-stakes moments from anxiety toward quiet confidence.</p>
+                <div class="card-status">still evolving</div>
               </div>
             </div>
           </div>
@@ -902,9 +832,9 @@
         <div class="project-card" tabindex="0" onclick="toggleCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){toggleCard(this); event.preventDefault();}">
           <div class="card-header">
             <div class="card-header-left">
-              <div class="card-number">03 &nbsp;/&nbsp; topology</div>
+              <div class="card-number">03 &nbsp;/&nbsp; product</div>
               <h3 class="card-title">Knowledge Map</h3>
-              <p class="card-tagline">Tracing the systemic distance from where you are to where you want to be.</p>
+              <p class="card-tagline">Understanding how what you know is connected.</p>
             </div>
             <div class="card-chevron">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -915,21 +845,8 @@
           <div class="card-body">
             <div class="card-body-inner">
               <div class="card-body-content">
-                <p class="card-desc">A graphical topology displaying structural career distance. It analyzes your present baseline coordinates and explicitly maps out the precise, interconnected layers needed to reach your target professional node. Built to scale progressively from specific hardware domains outward into complex cross-disciplinary environments.</p>
-                
-                <div class="ai-preview-box">
-                  <div class="ai-preview-header">
-                    <span>Topological Bridge</span>
-                    <span>System Coordinates</span>
-                  </div>
-                  <div class="ai-preview-stream">
-                    <div class="map-node"><span class="map-line">[Current: Microcontrollers]</span> ── (Pathing) ── <span class="highlight">[Gateway: Device Drivers]</span></div>
-                    <div class="map-node"><span class="map-line">[Gateway: Device Drivers]</span> ┄ (Target Gap) ┄ <span class="highlight">[Destination: Automotive SoC Architect]</span></div>
-                    &gt; cross_disciplinary_scalability: Framework Ready
-                  </div>
-                </div>
-
-                <div class="card-status">topological mapper running</div>
+                <p class="card-desc">A product that treats engineering knowledge as a living structure — where gaps are not failures but signals, and where the connections between ideas matter as much as the ideas themselves.</p>
+                <div class="card-status">still evolving</div>
               </div>
             </div>
           </div>
