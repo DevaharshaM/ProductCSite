@@ -6,7 +6,7 @@
   <title>Discover Your Engineering Path — Pravaha Path</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght=300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after {
@@ -126,7 +126,7 @@
 
     .form-textarea {
       width: 100%;
-      min-height: 200px; /* MODIFIED: Box size increased from 140px */
+      min-height: 200px;
       background: rgba(16, 42, 42, 0.4);
       border: 1px solid var(--border);
       border-radius: 2px;
@@ -199,10 +199,14 @@
     }
 
     .file-name-indicator {
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       color: var(--accent);
+      border: 1px dashed rgba(94, 234, 212, 0.3);
+      background: rgba(94, 234, 212, 0.04);
+      padding: 0.4rem 0.8rem;
+      border-radius: 2px;
       display: none;
     }
 
@@ -246,7 +250,7 @@
       border-top: 1px solid var(--border);
       padding-top: 1.5rem;
       display: flex;
-      justify-content: flex-end; /* MODIFIED: Pushes text completely to right */
+      justify-content: flex-end;
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
       color: var(--muted2);
@@ -324,7 +328,6 @@
   </main>
 
   <script>
-    // Handles validation and outputs structural feedback names securely
     function updateFileName(element) {
       const display = document.getElementById('fileName');
       
@@ -333,23 +336,24 @@
         const fileName = file.name;
         const fileExtension = fileName.split('.').pop().toLowerCase();
         
-        // Strict frontend protection validation logic
+        // Strict format filter popup
         if (fileExtension !== 'pdf' && fileExtension !== 'docx') {
-          alert("The required file should be in PDF or DOCX format.");
-          element.value = ''; // Flush data out of element context
+          alert("The required file format is only PDF or DOCX.");
+          element.value = ''; // Wipes the invalid file selection 
+          display.textContent = '';
           display.style.display = "none";
           return;
         }
 
-        // Fixed scoping bug by mapping directly to file metadata string properties
-        display.textContent = "Attached: " + fileName;
-        display.style.display = "block";
+        // Successfully logs file assignment visual target state
+        display.textContent = "✓ File added: " + fileName;
+        display.style.display = "inline-block";
       } else {
+        display.textContent = '';
         display.style.display = "none";
       }
     }
 
-    // Pipeline process testing mock wrapper
     function handleWorkflow(e) {
       e.preventDefault();
       
