@@ -6,7 +6,7 @@
   <title>Discover Your Engineering Path — Pravaha Path</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght=300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after {
@@ -196,6 +196,7 @@
       font-size: 0.72rem;
       color: var(--muted);
       letter-spacing: 0.04em;
+      pointer-events: none; /* Stops sub-labels from stealing underlying pointer events */
     }
 
     .file-name-indicator {
@@ -205,6 +206,7 @@
       color: var(--accent);
       display: none;
       letter-spacing: 0.02em;
+      text-align: center;
     }
 
     /* Submit Actions */
@@ -232,15 +234,24 @@
       transition: all 0.25s ease;
     }
 
-    .btn-submit:hover {
+    .btn-submit:hover:not(:disabled) {
       background: transparent;
       color: var(--text);
       border-color: rgba(94, 234, 212, 0.5);
       box-shadow: 0 0 30px rgba(94, 234, 212, 0.1);
     }
 
+    /* Disabled Architecture Styles Override */
+    .btn-submit:disabled {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--muted2);
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
     .btn-submit svg { transition: transform 0.25s ease; }
-    .btn-submit:hover svg { transform: translateX(4px); }
+    .btn-submit:hover:not(:disabled) svg { transform: translateX(4px); }
 
     .footer-minimal {
       margin-top: 6rem;
@@ -283,6 +294,7 @@
           id="aboutInput" 
           class="form-textarea" 
           placeholder="Tell us about yourself — your background, structural strengths, architectural patterns you like, or complex hardware/software systems you enjoy building..."
+          oninput="evaluateFormState()"
         ></textarea>
         
         <div class="divider-container">
@@ -291,9 +303,10 @@
           <div class="divider-line"></div>
         </div>
 
-        <div class="file-upload-zone" onclick="triggerFileSelector()">
+        <label class="file-upload-zone" for="resumeUpload">
           <span class="upload-text">Upload Resume (PDF, DOCX)</span>
-        </div>
+        </label>
+        <input type="file" id="resumeUpload" accept=".pdf,.docx" style="display: none;" onchange="updateFileName(this)" />
         <div id="fileName" class="file-name-indicator"></div>
       </section>
 
@@ -303,11 +316,12 @@
           id="interestsInput" 
           class="form-textarea" 
           placeholder="What kind of sub-domains are you looking to target? (e.g., bare-metal development, firmware architectures, hardware-in-the-loop (HIL) testing, or RTOS-based system integration...)"
+          oninput="evaluateFormState()"
         ></textarea>
       </section>
 
       <div class="action-container">
-        <button type="submit" class="btn-submit">
+        <button type="submit" id="submitBtn" class="btn-submit" disabled>
           Discover Your Path
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -323,15 +337,26 @@
 
   </main>
 
-  <input type="file" id="resumeUpload" accept=".pdf,.docx" style="display: none;" onchange="updateFileName(this)" />
-
   <script>
-    // Pure programmatic trigger to invoke file picker safely
-    function triggerFileSelector() {
-      document.getElementById('resumeUpload').click();
+    // System evaluation checking state metrics across form controllers
+    function evaluateFormState() {
+      const aboutValue = document.getElementById('aboutInput').value.trim();
+      const interestsValue = document.getElementById('interestsInput').value.trim();
+      const fileInput = document.getElementById('resumeUpload');
+      const submitBtn = document.getElementById('submitBtn');
+
+      const hasTextContent = aboutValue.length > 0 || interestsValue.length > 0;
+      const hasValidFile = fileInput.files && fileInput.files.length > 0;
+
+      // Button unlocks dynamically if any segment contains valid entry data
+      if (hasTextContent || hasValidFile) {
+        submitBtn.removeAttribute('disabled');
+      } else {
+        submitBtn.setAttribute('disabled', 'true');
+      }
     }
 
-    // Handles validation cleanly and renders the precise string text output
+    // Handles document layout change and outputs file state text cleanly
     function updateFileName(element) {
       const display = document.getElementById('fileName');
       
@@ -340,37 +365,39 @@
         const fileName = file.name;
         const fileExtension = fileName.split('.').pop().toLowerCase();
         
-        // Explicit strict validation check
+        // Custom warning message format validation handler
         if (fileExtension !== 'pdf' && fileExtension !== 'docx') {
           alert("The file format is only pdf or docx.");
-          element.value = ''; // Clean element state
-          display.textContent = '';
+          element.value = ''; // Clean input buffer references
           display.style.display = "none";
+          evaluateFormState(); // Recalculate button properties
           return;
         }
 
-        // Output correct attached text style
+        // Output matching strings cleanly
         display.textContent = "Attached: " + fileName;
         display.style.display = "block";
       } else {
         display.style.display = "none";
       }
+
+      evaluateFormState();
     }
 
-    // Process submit tester hook
+    // Modal progress execution workflow pipeline handler
     function handleWorkflow(e) {
       e.preventDefault();
       
-      const about = document.getElementById('aboutInput').value.trim();
-      const interests = document.getElementById('interestsInput').value.trim();
-      const fileInput = document.getElementById('resumeUpload');
+      const submitBtn = document.getElementById('submitBtn');
+      
+      // Visual interface change indicating loading progress execution states
+      submitBtn.setAttribute('disabled', 'true');
+      submitBtn.innerHTML = `In Progress... <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation: spin 1s linear infinite;"><path d="M2 7a5 5 0 0 1 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
 
-      if (!about && !interests && (!fileInput.files || fileInput.files.length === 0)) {
-        alert("Please provide context regarding your background or targeted sub-domains to proceed.");
-        return;
-      }
-
-      alert("Trajectory parsing complete. Data validated on frontend. Ready to plug into context classification engines.");
+      // Generate context-window layout popup notice alert
+      setTimeout(() => {
+        alert("In Progress");
+      }, 50);
     }
   </script>
 
