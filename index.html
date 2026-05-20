@@ -253,6 +253,41 @@
     }
     .btn-primary:hover svg { transform: translateX(4px); }
 
+    /* New context-appropriate embedded card CTA design style */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 0.5rem 1.2rem;
+      border-radius: 2px;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      align-self: flex-start;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: transparent;
+      color: var(--accent);
+      border-color: rgba(94, 234, 212, 0.4);
+    }
+
+    .btn-secondary svg {
+      transition: transform 0.2s ease;
+    }
+    .btn-secondary:hover svg {
+      transform: translateX(3px);
+    }
+
     /* Decorative vertical line */
     .hero-deco {
       position: absolute;
@@ -419,7 +454,7 @@
       color: var(--accent);
     }
 
-    /* ── Expandable CSS Grid smooth transition fix ── */
+    /* ── Expandable structural layout fix ── */
     .card-body {
       display: grid;
       grid-template-rows: 0fr;
@@ -800,6 +835,14 @@
             <div class="card-body-inner">
               <div class="card-body-content">
                 <p class="card-desc">An evolving product that helps engineers understand not just what to learn next — but why that direction makes sense for where they currently are. Growth with orientation, not just volume.</p>
+                
+                <a href="discover.html" target="_blank" class="btn-secondary" onclick="event.stopPropagation();">
+                  Discover Your Path
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" style="margin-left: 2px;">
+                    <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+
                 <div class="card-status">still evolving</div>
               </div>
             </div>
