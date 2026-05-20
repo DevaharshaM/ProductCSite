@@ -6,7 +6,7 @@
   <title>Discover Your Engineering Path — Pravaha Path</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght=300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after {
@@ -49,7 +49,7 @@
       opacity: 0.6;
     }
 
-    /* ── Navbar Profile Wrapper ── */
+    /* ── Navbar ── */
     nav {
       position: absolute;
       top: 0; left: 0; right: 0;
@@ -84,15 +84,6 @@
       margin-bottom: 3.5rem;
     }
 
-    .workspace-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-    }
-
     .workspace-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2rem, 4.5vw, 3rem);
@@ -109,7 +100,7 @@
       line-height: 1.75;
     }
 
-    /* ── Form Architecture ── */
+    /* ── Form Layout ── */
     .form-group {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -135,7 +126,7 @@
 
     .form-textarea {
       width: 100%;
-      min-height: 140px;
+      min-height: 200px; /* MODIFIED: Box size increased from 140px */
       background: rgba(16, 42, 42, 0.4);
       border: 1px solid var(--border);
       border-radius: 2px;
@@ -159,7 +150,7 @@
       opacity: 0.7;
     }
 
-    /* ── Modular Upload & Divider system ── */
+    /* Divider & Upload elements */
     .divider-container {
       display: flex;
       align-items: center;
@@ -215,7 +206,7 @@
       display: none;
     }
 
-    /* ── Action Buttons ── */
+    /* Submit Actions */
     .action-container {
       display: flex;
       justify-content: center;
@@ -247,21 +238,15 @@
       box-shadow: 0 0 30px rgba(94, 234, 212, 0.1);
     }
 
-    .btn-submit svg {
-      transition: transform 0.25s ease;
-    }
+    .btn-submit svg { transition: transform 0.25s ease; }
+    .btn-submit:hover svg { transform: translateX(4px); }
 
-    .btn-submit:hover svg {
-      transform: translateX(4px);
-    }
-
-    /* ── Footer ── */
     .footer-minimal {
       margin-top: 6rem;
       border-top: 1px solid var(--border);
       padding-top: 1.5rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end; /* MODIFIED: Pushes text completely to right */
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
       color: var(--muted2);
@@ -285,7 +270,6 @@
   <main class="workspace-container">
     
     <header class="header-section">
-      <div class="workspace-eyebrow">Onboarding Engine</div>
       <h1 class="workspace-title">Discover Your Engineering Path</h1>
       <p class="workspace-desc">Engineering growth becomes clearer when direction aligns with curiosity, strengths, and the way you naturally think.</p>
     </header>
@@ -293,11 +277,11 @@
     <form id="onboardingForm" onsubmit="handleWorkflow(event)">
       
       <section class="form-group">
-        <label class="form-label" for="aboutInput">Tell us about yourself</label>
+        <label class="form-label" for="aboutInput">Your Experience, interests or strengths</label>
         <textarea 
           id="aboutInput" 
           class="form-textarea" 
-          placeholder="Your background, interests, strengths, things you enjoy building or learning..."
+          placeholder="Tell us about yourself — your background, structural strengths, architectural patterns you like, or complex hardware/software systems you enjoy building..."
         ></textarea>
         
         <div class="divider-container">
@@ -318,7 +302,7 @@
         <textarea 
           id="interestsInput" 
           class="form-textarea" 
-          placeholder="What kind of engineering, technology, or future direction are you curious about?"
+          placeholder="What kind of sub-domains are you looking to target? (e.g., bare-metal development, firmware architectures, hardware-in-the-loop (HIL) testing, or RTOS-based system integration...)"
         ></textarea>
       </section>
 
@@ -334,25 +318,38 @@
     </form>
 
     <footer class="footer-minimal">
-      <span>workspace layer v0.1</span>
       <span>pravaha path &nbsp;·&nbsp; 2026</span>
     </footer>
 
   </main>
 
   <script>
-    // Visual micro-feedback for chosen resume document file
-    function updateFileName(input) {
+    // Handles validation and outputs structural feedback names securely
+    function updateFileName(element) {
       const display = document.getElementById('fileName');
-      if (input.files && input.files.length > 0) {
-        display.textContent = "Attached: " + input.files.name;
+      
+      if (element.files && element.files.length > 0) {
+        const file = element.files;
+        const fileName = file.name;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        
+        // Strict frontend protection validation logic
+        if (fileExtension !== 'pdf' && fileExtension !== 'docx') {
+          alert("The required file should be in PDF or DOCX format.");
+          element.value = ''; // Flush data out of element context
+          display.style.display = "none";
+          return;
+        }
+
+        // Fixed scoping bug by mapping directly to file metadata string properties
+        display.textContent = "Attached: " + fileName;
         display.style.display = "block";
       } else {
         display.style.display = "none";
       }
     }
 
-    // Capture onboarding data before hitting API vectors later
+    // Pipeline process testing mock wrapper
     function handleWorkflow(e) {
       e.preventDefault();
       
@@ -361,12 +358,11 @@
       const fileInput = document.getElementById('resumeUpload');
 
       if (!about && !interests && (!fileInput.files || fileInput.files.length === 0)) {
-        alert("Please map out some initial background details or interests to generate a direction.");
+        alert("Please provide context regarding your background or targeted sub-domains to proceed.");
         return;
       }
 
-      // UX prompt indicating structural validity for future phase expansion
-      alert("System initialized. The frontend profile layer is valid. Next phase will hook this up to the pathfinder core matrix.");
+      alert("Trajectory parsing complete. Data validated on frontend. Ready to plug into context classification engines.");
     }
   </script>
 

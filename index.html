@@ -97,7 +97,7 @@
       list-style: none;
     }
 
-    .nav-links a {
+    .nav-links volunteering-a, .nav-links a {
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.12em;
@@ -253,7 +253,6 @@
     }
     .btn-primary:hover svg { transform: translateX(4px); }
 
-    /* New context-appropriate embedded card CTA design style */
     .btn-secondary {
       display: inline-flex;
       align-items: center;
@@ -281,12 +280,8 @@
       border-color: rgba(94, 234, 212, 0.4);
     }
 
-    .btn-secondary svg {
-      transition: transform 0.2s ease;
-    }
-    .btn-secondary:hover svg {
-      transform: translateX(3px);
-    }
+    .btn-secondary svg { transition: transform 0.2s ease; }
+    .btn-secondary:hover svg { transform: translateX(3px); }
 
     /* Decorative vertical line */
     .hero-deco {
@@ -454,16 +449,13 @@
       color: var(--accent);
     }
 
-    /* ── Expandable structural layout fix ── */
     .card-body {
       display: grid;
       grid-template-rows: 0fr;
       transition: grid-template-rows 0.38s ease;
     }
 
-    .project-card.open .card-body {
-      grid-template-rows: 1fr;
-    }
+    .project-card.open .card-body { grid-template-rows: 1fr; }
 
     .card-body-inner {
       overflow: hidden;
@@ -570,9 +562,7 @@
       letter-spacing: 0.08em;
     }
 
-    .about-creator span {
-      color: var(--muted);
-    }
+    .about-creator span { color: var(--muted); }
 
     .about-link {
       display: inline-flex;
@@ -611,9 +601,7 @@
       line-height: 1.7;
     }
 
-    .feedback-section {
-      margin-top: 1rem;
-    }
+    .feedback-section { margin-top: 1rem; }
 
     .feedback-label {
       font-family: 'DM Mono', monospace;
@@ -822,7 +810,7 @@
           <div class="card-header">
             <div class="card-header-left">
               <div class="card-number">01 &nbsp;/&nbsp; product</div>
-              <h3 class="card-title">Learning Path</h3>
+              <h3 class="card-title">Career Trajectory</h3>
               <p class="card-tagline">A system for finding direction in engineering growth.</p>
             </div>
             <div class="card-chevron">
@@ -1015,7 +1003,8 @@
       }
       const subject = encodeURIComponent('Pravaha Path Feedback');
       const encodedBody = encodeURIComponent(body);
-      const mailtoLink = `mailto:hello@pravahpath.dev?subject=${subject}&body=${encodedBody}`;
+      // MODIFIED: Destinations changed to meesarapud@gmail.com
+      const mailtoLink = `mailto:meesarapud@gmail.com?subject=${subject}&body=${encodedBody}`;
       window.open(mailtoLink, '_blank');
     }
   </script>
