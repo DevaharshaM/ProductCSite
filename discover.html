@@ -6,7 +6,7 @@
   <title>Discover Your Engineering Path — Pravaha Path</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after {
@@ -293,9 +293,9 @@
 
         <label class="file-upload-zone" for="resumeUpload">
           <span class="upload-text">Upload Resume (PDF, DOCX)</span>
-          <input type="file" id="resumeUpload" accept=".pdf,.docx" style="display: none;" onchange="updateFileName(this)" />
-          <div id="fileName" class="file-name-indicator"></div>
         </label>
+        <input type="file" id="resumeUpload" accept=".pdf,.docx" style="display: none;" onchange="updateFileName(this)" />
+        <div id="fileName" class="file-name-indicator"></div>
       </section>
 
       <section class="form-group">
@@ -325,7 +325,6 @@
   </main>
 
   <script>
-    // Handles validation and outputs structural feedback names securely
     function updateFileName(element) {
       const display = document.getElementById('fileName');
       
@@ -334,15 +333,15 @@
         const fileName = file.name;
         const fileExtension = fileName.split('.').pop().toLowerCase();
         
-        // Validation check against explicit format vectors
+        // Validation check against correct expansion profiles
         if (fileExtension !== 'pdf' && fileExtension !== 'docx') {
           alert("The file format is only pdf or docx.");
-          element.value = ''; // Flush data cache out of node
+          element.value = ''; // Flush selected element context data
           display.style.display = "none";
           return;
         }
 
-        // Accurately print format indicator
+        // Output formatting
         display.textContent = "Attached: " + fileName;
         display.style.display = "block";
       } else {
@@ -350,7 +349,6 @@
       }
     }
 
-    // Pipeline data verification checker
     function handleWorkflow(e) {
       e.preventDefault();
       
