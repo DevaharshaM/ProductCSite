@@ -6,7 +6,7 @@
   <title>Discover Your Engineering Path — Pravaha Path</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght=0,300;0,400;1,300&family=Instrument+Sans:wght=300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after {
@@ -291,10 +291,9 @@
           <div class="divider-line"></div>
         </div>
 
-        <label class="file-upload-zone" for="resumeUpload">
+        <div class="file-upload-zone" onclick="triggerFileSelector()">
           <span class="upload-text">Upload Resume (PDF, DOCX)</span>
-        </label>
-        <input type="file" id="resumeUpload" accept=".pdf,.docx" style="display: none;" onchange="updateFileName(this)" />
+        </div>
         <div id="fileName" class="file-name-indicator"></div>
       </section>
 
@@ -324,7 +323,15 @@
 
   </main>
 
+  <input type="file" id="resumeUpload" accept=".pdf,.docx" style="display: none;" onchange="updateFileName(this)" />
+
   <script>
+    // Pure programmatic trigger to invoke file picker safely
+    function triggerFileSelector() {
+      document.getElementById('resumeUpload').click();
+    }
+
+    // Handles validation cleanly and renders the precise string text output
     function updateFileName(element) {
       const display = document.getElementById('fileName');
       
@@ -333,15 +340,16 @@
         const fileName = file.name;
         const fileExtension = fileName.split('.').pop().toLowerCase();
         
-        // Validation check against correct expansion profiles
+        // Explicit strict validation check
         if (fileExtension !== 'pdf' && fileExtension !== 'docx') {
           alert("The file format is only pdf or docx.");
-          element.value = ''; // Flush selected element context data
+          element.value = ''; // Clean element state
+          display.textContent = '';
           display.style.display = "none";
           return;
         }
 
-        // Output formatting
+        // Output correct attached text style
         display.textContent = "Attached: " + fileName;
         display.style.display = "block";
       } else {
@@ -349,6 +357,7 @@
       }
     }
 
+    // Process submit tester hook
     function handleWorkflow(e) {
       e.preventDefault();
       
