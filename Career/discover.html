@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discover Your Engineering Path — Pravaha Path</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="ctStyle.css" />
+  <script src="ctApp.js" defer></script>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="../Home/index.html">
+      Pravaha <span>Path</span>
+    </a>
+  </nav>
+
+  <main class="workspace-container">
+    
+    <header class="header-section">
+      <h1 class="workspace-title">Discover Your Engineering Path</h1>
+      <p class="workspace-desc">Engineering growth becomes clearer when direction aligns with curiosity, strengths, and the way you naturally think.</p>
+    </header>
+
+    <form id="onboardingForm">
+      
+      <section class="form-group">
+        <label class="form-label" for="aboutInput">Your Experience, interests or strengths</label>
+        <textarea 
+          id="aboutInput" 
+          class="form-textarea" 
+          placeholder="Tell us about yourself — your background, structural strengths, architectural patterns you like, or complex hardware/software systems you enjoy building..."
+        ></textarea>
+        
+        <div class="divider-container">
+          <div class="divider-line"></div>
+          <span class="divider-text">or</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <label class="file-upload-zone" for="resumeUpload">
+          <span class="upload-text">Upload Resume (PDF, DOCX)</span>
+        </label>
+        <input type="file" id="resumeUpload" />
+        <div id="fileName" class="file-name-indicator"></div>
+      </section>
+
+      <section class="form-group">
+        <label class="form-label" for="interestsInput">Career Interests</label>
+        <textarea 
+          id="interestsInput" 
+          class="form-textarea" 
+          placeholder="What kind of sub-domains are you looking to target? (e.g., bare-metal development, firmware architectures, hardware-in-the-loop (HIL) testing, or RTOS-based system integration...)"
+        ></textarea>
+      </section>
+
+      <div class="action-container">
+        <button type="submit" id="submitBtn" class="btn-submit" disabled>
+          Discover Your Path
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+    </form>
+
+    <footer class="footer-minimal">
+      <span>pravaha path &nbsp;·&nbsp; 2026</span>
+    </footer>
+
+  </main>
+
+</body>
+</html>
